@@ -9,18 +9,18 @@ This document describes the architecture of the `sharks` subsystem, which provid
 ## Architecture
 ```mermaid
 graph TD
-    A[Training Data (data/train, data/test)] --> B[shark_model_trainer.py]
-    B --> C[Trained Model (.h5)]
-    C --> D1[shark_detector.py (Desktop/Drone)]
-    C --> D2[TFLite Converter (optional)]
-    D2 --> E[TFLite Model (.tflite)]
-    E --> F[drone_inference_tflite.py (Drone Clip Saving)]
+    A[Training Data] --> B[shark_model_trainer.py]
+    B --> C[Trained Model *.h5]
+    C --> D1[shark_detector.py on Desktop or Drone]
+    C --> D2[TFLite Converter optional]
+    D2 --> E[TFLite Model *.tflite]
+    E --> F[drone_inference_tflite.py on Drone Clip Saving]
 
     D1 --> G[Video/Webcam Input]
-    D1 --> H[Detection Results<br/>(API, Overlay, Output Video)]
+    D1 --> H[Detection Results as API, Overlay, Output Video]
     F --> I[RT Video Stream]
     F --> J[Detection Buffer]
-    J --> K[Saved Clips + detections.json]
+    J --> K[Saved Clips and detections.json]
 ```
 
 ## High-level components
