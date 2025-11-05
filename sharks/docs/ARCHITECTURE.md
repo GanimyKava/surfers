@@ -6,6 +6,23 @@ Last updated: 2025-11-03
 
 This document describes the architecture of the `sharks` subsystem, which provides training, model export, and real-time inference for a binary shark / no-shark classifier used by drone and desktop video pipelines.
 
+## Architecture
+```mermaid
+graph TD
+    A[Training Data (data/train, data/test)] --> B[shark_model_trainer.py]
+    B --> C[Trained Model (.h5)]
+    C --> D1[shark_detector.py (Desktop/Drone)]
+    C --> D2[TFLite Converter (optional)]
+    D2 --> E[TFLite Model (.tflite)]
+    E --> F[drone_inference_tflite.py (Drone Clip Saving)]
+
+    D1 --> G[Video/Webcam Input]
+    D1 --> H[Detection Results<br/>(API, Overlay, Output Video)]
+    F --> I[RT Video Stream]
+    F --> J[Detection Buffer]
+    J --> K[Saved Clips + detections.json]
+```
+
 ## High-level components
 
 - Training pipeline (`src/shark_model_trainer.py`)
